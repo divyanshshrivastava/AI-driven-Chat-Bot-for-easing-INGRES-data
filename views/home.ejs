@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Groundwater Resources</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #f9f9f9;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg,#8b5cf6 0%,#ec4899 100%);
+      padding: 12px 25px;
+      color: #fff;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links li a:hover {
+      opacity: 0.85;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 20px;
+      padding: 5px 10px;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      padding: 5px;
+    }
+
+    .profile {
+      margin-left: 15px;
+      font-size: 20px;
+    }
+
+    /* Filters */
+    .filters {
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .filters form select,
+    .filters form button {
+      margin: 5px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .filters form button {
+      border: none;
+      background: linear-gradient(90deg,#8b5cf6 0%,#ec4899 100%);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .3s;
+    }
+
+    .filters form button:hover {
+      opacity: 0.9;
+    }
+
+    /* Data cards */
+    .data-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0px 6px 15px rgba(0,0,0,0.1);
+      transition: transform .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Explore section */
+    .explore {
+      padding: 30px 20px;
+      background: #fafafa;
+    }
+
+    .explore h2 {
+      text-align: center;
+      font-size: 26px;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg,#8b5cf6 0%,#ec4899 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .explore-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(260px, 1fr));
+      gap: 15px;
+    }
+
+    .explore-card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    .explore-card h4 {
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .explore-card p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* Chatbot Icon */
+    #chatbot-icon {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: linear-gradient(90deg,#8b5cf6 0%,#ec4899 100%);
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      z-index: 1000;
+    }
+
+    #chatbot-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+    }
+
+    /* Chatbox Sliding Panel */
+    #chatbox {
+      position: fixed;
+      top: 0;
+      right: -400px; /* hidden off-screen */
+      width: 350px;
+      max-width: 90%;
+      height: 100%;
+      background: #fff;
+      border-left: 1px solid #ddd;
+      box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      z-index: 999;
+      border-radius: 10px 0 0 10px;
+      overflow: hidden;
+      transition: right 0.4s ease-in-out;
+    }
+
+    #chatbox.active {
+      right: 0;
+    }
+
+    /* Chat Header */
+    .chat-header {
+      background: linear-gradient(90deg,#8b5cf6 0%,#ec4899 100%);
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    }
+
+    /* Chat Body */
+    .chat-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+      background: #f9f9f9;
+    }
+
+    /* Chat Input */
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      padding: 10px 15px;
+      outline: none;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .chat-input input:focus {
+      border-color: #8b5cf6;
+    }
+
+    .chat-input button {
+      border: none;
+      background: linear-gradient(90deg,#8b5cf6 0%,#ec4899 100%);
+      color: white;
+      padding: 10px 18px;
+      margin-left: 8px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: opacity 0.3s, transform 0.2s;
+    }
+
+    .chat-input button:hover {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo"><img style="height:50px;width:50px;border-radius: 50%;" src="/logo.jpg" alt=""><span style="position: absolute;top:25px;left:85px;">Jaldrishti</span style="position: absolute;"></div>
+    <ul class="nav-links">
+      <li><a href="#">Dashboard</a></li>
+      <li><a href="#">Reports</a></li>
+      <li><a href="#">Insights</a></li>
+    </ul>
+    <div class="search-bar">
+      <input type="text" placeholder="Search..." />
+      <i class="fa fa-search"></i>
+    </div>
+    <div class="profile">
+      <i class="fa fa-user-circle"></i>
+    </div>
+  </nav>
+
+  <!-- Filters -->
+  <section class="filters">
+    <form method="get" action="/home">
+      <select name="state">
+        <option value="">Select State</option>
+        <option>Madhya Pradesh</option>
+        <option>Maharashtra</option>
+        <option>Rajasthan</option>
+      </select>
+      <select name="district">
+        <option value="">Select District</option>
+        <option>Indore</option>
+        <option>Pune</option>
+        <option>Jaipur</option>
+      </select>
+      <select name="year">
+        <option value="">Assessment Year</option>
+        <option>2020</option>
+        <option>2021</option>
+        <option>2022</option>
+      </select>
+      <button type="submit">Apply</button>
+    </form>
+  </section>
+
+  <!-- Data Display -->
+  <section class="data-section">
+    <% if (data.length > 0) { %>
+      <% data.forEach(item => { %>
+        <div class="card">
+          <h3><%= item.state %> - <%= item.district %></h3>
+          <p><strong>Year:</strong> <%= item.year %></p>
+          <p><%= item.info %></p>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p><%= message %></p>
+    <% } %>
+  </section>
+
+  <!-- Explore Section -->
+  <section class="explore">
+    <h2>Explore Latest Groundwater Updates</h2>
+    <div class="explore-cards">
+      <div class="explore-card">
+        <h4>India’s groundwater declining</h4>
+        <p>Recent studies show rapid depletion in semi-arid zones, threatening agriculture and drinking supply.</p>
+      </div>
+      <div class="explore-card">
+        <h4>CGWB Report 2025</h4>
+        <p>Central Ground Water Board releases latest aquifer management data and sustainable practices.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+      <div class="explore-card">
+        <h4>INGRES expands monitoring</h4>
+        <p>New collaboration boosts real-time groundwater tracking in northern and central India.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chatbot -->
+  <div id="chatbot-icon">
+    <i class="fa fa-comments"></i>
+  </div>
+  <div id="chatbox" class="hidden">
+    <div class="chat-header">AI Chatbot <span style="cursor:pointer" id="close-chat">✖</span></div>
+    <div class="chat-body" id="chat-body"></div>
+    <div class="chat-input">
+      <input type="text" id="user-input" placeholder="Ask me something..."/>
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+  <script src="/chatbot.js"></script>
+  <script>
+    const chatIcon = document.getElementById("chatbot-icon");
+    const chatBox = document.getElementById("chatbox");
+    const closeChat = document.getElementById("close-chat");
+
+    chatIcon.addEventListener("click", () => {
+      chatBox.classList.add("active"); // slide in
+      chatIcon.style.display = "none";
+    });
+
+    closeChat.addEventListener("click", () => {
+      chatBox.classList.remove("active"); // slide out
+      chatIcon.style.display = "flex";
+    });
+  </script>
+</body>
+</html>

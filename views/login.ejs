@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaldrishti Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Montserrat',sans-serif;
+  background:#fff;
+  min-height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+}
+
+/* Violet-pink curved background */
+.bg-violet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60vw;
+  height: 30vh;
+  z-index: -3;
+  background: radial-gradient(
+      circle at 100% 0%,
+      #8b5cf6 0%,
+      #ec4899 60%,
+      transparent 90%
+  );
+  border-bottom-left-radius: 60% 50%;
+}
+
+/* Top navigation */
+.topbar-links{
+  position:absolute;
+  top:0;
+  right:0;
+  padding:30px 60px;
+  z-index:5;
+}
+.topbar-links nav a{
+  color:#211c1c;
+  margin-left:24px;
+  text-decoration:none;
+  font-weight:500;
+  transition:opacity .3s;
+}
+.topbar-links nav a:hover{opacity:0.85;}
+
+/* Floating shapes */
+.shape-elem{
+  position:absolute;
+  border-radius:50%;
+  z-index:-1;
+  opacity:0.9;
+}
+.shape-blue {
+  width: 260px;
+  height: 260px;
+  background: rgba(56,189,248,0.35); /* transparent blue */
+  top: 36%;
+  right: -130px;
+  border-top-left-radius: 130px;
+  border-bottom-left-radius: 130px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.shape-orange {
+  width: 150px;
+  height: 150px;
+  background: #f59e0b;
+  top: 50%;
+  right: -5px;
+}
+.shape-cyan{
+  width:70px; height:70px;
+  background:#22d3ee;
+  top:68%; right:33%;
+}
+
+/* Login card */
+.login-box{
+  width:360px;
+  background:#fff;
+  padding:45px 40px;
+  border-radius:20px;
+  box-shadow:0 12px 28px rgba(0,0,0,0.12);
+  text-align:center;
+  z-index:2;
+}
+.login-box h1{
+  font-size:32px;
+  margin-bottom:16px;
+  background:linear-gradient(90deg,#8b5cf6 0%,#ec4899 100%);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
+.subtitle{
+  font-size:14px;
+  color:#666;
+  line-height:1.5;
+  margin-bottom:20px;
+}
+.subtitle a{
+  color:#8b5cf6;
+  text-decoration:none;
+}
+.subtitle a:hover{text-decoration:underline;}
+
+.login-box .error-msg {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Input fields */
+.login-box input{
+  width:100%;
+  padding:12px 15px;
+  margin-bottom:18px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  font-size:14px;
+  transition:border .3s;
+}
+.login-box input:focus{
+  outline:none;
+  border-color:#8b5cf6;
+}
+
+/* Button */
+.btn-gradient{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:30px;
+  font-weight:600;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+  background:linear-gradient(90deg,#8b5cf6 0%,#ec4899 100%);
+  transition:opacity .3s;
+}
+.btn-gradient:hover{opacity:0.9;}
+  </style>
+</head>
+<body>
+
+  <!-- Violet gradient -->
+  <div class="bg-violet"></div>
+
+  <!-- Floating shapes -->
+  <div class="shape-elem shape-blue"></div>
+  <div class="shape-elem shape-orange"></div>
+  <div class="shape-elem shape-cyan"></div>
+
+  <!-- Top bar -->
+  <header class="topbar-links">
+    <nav>
+      <a href="#">Schedule a time</a>
+      <a href="#">Learn More</a>
+      <a href="#">About</a>
+      <a href="/signup">Sign up</a>
+    </nav>
+  </header>
+
+  <!-- Login card -->
+  <section class="login-box">
+    <h1>Login</h1>
+    <p class="subtitle">
+      Welcome back! Login to access the Jaldrishti.<br>
+      Did you <a href="#">forget your password?</a>
+    </p>
+
+    <% if (typeof message !== "undefined") { %>
+      <p class="error-msg"><%= message %></p>
+    <% } %>
+
+    <form action="/login" method="POST">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button class="btn-gradient" type="submit">CONTINUE</button>
+    </form>
+
+    <p class="subtitle">
+      Don’t have an account? <a href="/signup">Create now.</a>
+    </p>
+  </section>
+
+</body>
+</html>

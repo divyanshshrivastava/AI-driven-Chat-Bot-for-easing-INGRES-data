@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1592397015366-2c7c048eec2a') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .container {
+      width: 350px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      margin: 100px auto;
+      text-align: center;
+    }
+    h2 { margin-bottom: 20px; color: #333; }
+    .input-group { margin: 15px 0; }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4a47a3;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover { background: #37348c; }
+    .links { margin-top: 10px; font-size: 14px; }
+    .links a { color: #4a47a3; text-decoration: none; }
+    .msg { color: red; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+    <form action="/signup" method="POST">
+      <div class="input-group">
+        <input type="text" name="username" placeholder="Username" required />
+      </div>
+      <div class="input-group">
+        <input type="password" name="password" placeholder="Password" required />
+      </div>
+      <button type="submit">SIGN UP</button>
+    </form>
+    <div class="links">
+      Already have an account? <a href="/login">Login</a>
+    </div>
+    <% if (message) { %>
+      <p class="msg"><%= message %></p>
+    <% } %>
+  </div>
+</body>
+</html>
